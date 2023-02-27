@@ -1,8 +1,9 @@
 FROM busybox:latest
 
-COPY ./target/x86_64-unknown-linux-musl/release/<package-name> /bin/<package-name>
-COPY ./Rocket.toml /root
+COPY ./target/x86_64-unknown-linux-musl/release/q-api-profiles /bin/uv-api-profiles
+COPY ./Rocket.toml /root/Rocket.toml
 
 WORKDIR /root
 
-CMD [ "package-name" ]
+CMD ["uv-api-profiles"]
+

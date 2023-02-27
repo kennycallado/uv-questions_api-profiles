@@ -1,36 +1,32 @@
-# Questions api BASE
+# Questions api profile
 
-## Ficheros para adaptar
+``` bash
+sudo chmod -R o+w target
+```
 
-### Raíz del proyecto
+Compilar la aplicación:
 
-- [ ] .env
-  - Dirección de la base de datos
-- [ ] Cargo.toml
-  - Nombre del paquete
-  - Revisar dependencias
-- [ ] compose.yaml
-  - Variables de entorno
-  - Servicios extra
-- [ ] Dockerfile
-  - Nombre del binario, viene desde Cargo.toml
-- [ ] Rocket.toml
-  - Dirección de la base de datos
+``` bash
+docker run --rm -it -v "$(pwd)":/home/rust/src ekidd/rust-musl-builder
 
-### Directorio src
+cargo build --release
+```
 
-- [ ] Tests
 
-### Migraciones
+``` bash
+docker build --no-cache --pull --platform linux/arm64 -f ./Dockerfile -t kennycallado/uv-questions_api-profiles:v0.1-arm64 .
+```
 
-Cada api tiene sus propias migraciones localizadas en el directorio `src/database/migrations`
+``` bash
+docker build --no-cache --pull --platform linux/amd64 -f ./Dockerfile -t kennycallado/uv-questions_api-profiles:v0.1-amd64 .
+```
 
-### Modules
+``` bash
+docker push -a kennycallado/uv-questions_api-profiles
+```
 
-Directorio principal de trabajo de cada api. Contendrá un módulo por cada entidad con la que trabaje la api y administrará sus rustas.
+## TODO:
 
-## Module
+- [x] add migrations on bootstrap
+- [ ] A way to populate the database from a distribuited database...
 
-Cada módulo deberá contener, `model.rs` y `controller.rs`. En caso de ser necesario el controlador puede ayudarse de un directorio `handlers` y el modelo puede tener un repositorio dentro del directorio `services`.
-
-El directorio de servicios del módulo también puede contener por ejemplo, `helpers` para el controlador o implementación de `claims` para entidad user.
